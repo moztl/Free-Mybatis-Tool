@@ -1,0 +1,108 @@
+<idea-plugin>
+    <id>com.tianlei.plugin.mybatis</id>
+    <name>Free MyBatis Tool</name>
+    <version>2.0.0</version>
+    <vendor email="156751282@qq.com" url="">tianlei</vendor>
+    <idea-version since-build="213"/>
+    <description>
+    <![CDATA[
+        Free Mybatis Tool <br/>
+        Refactor and support the latest version of idea.</br>
+        Free MyBatis Plugins is a plugin that enhances idea support for mybatis.</br>
+        Here is the main functions:</br>
+        <ul>
+            <li>generate mapper xml files</li>
+            <li>navigate from the code to mapper and from the mapper back to code</li>
+            <li>auto code and error tips</li>
+            <li>support mybatis generator gui</li>
+            <li>generate swagger model annotation</li>
+        </ul>
+
+        Free MyBatis Tool 是一款增强idea对mybatis支持的插件。<br/>
+        主要功能如下：<br/>
+        <ul>
+            <li>生成mapper xml文件</li>
+            <li>快速从代码跳转到mapper及从mapper返回代码</li>
+            <li>mybatis自动补全及语法错误提示</li>
+            <li>集成mybatis generator gui界面</li>
+            <li>根据数据库注解，生成swagger model注解</li>
+        </ul>
+
+        Getting started <br/>
+        <ul>
+            <li>Open the Dao interface file and click the arrow on the left to jump to the xml file.</li>
+            <li>Open the xml interface file and click the arrow on the left to jump to the Dao file.</li>
+            <li>Open the database Tool on the left side of the idea, create a data source connection, right-click to select one or more tables, and select Mybatis-Generator to open the Mybatis Generate Tool panel for the Generate operation.</li>
+        </ul>
+
+        Thanks for the contribution @wuzhizhan
+    ]]>
+    </description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.xml</depends>
+    <depends>com.intellij.database</depends>
+    <depends>com.intellij.spring</depends>
+    <depends>com.intellij.java</depends>
+
+    <actions>
+        <action id="free-mabatis-generate-action"
+                class="com.tianlei.mybatis.action.MybatisGeneratorMainAction"
+                text="Mybatis-Generator"
+                description="Mybatis generator idea plugin">
+            <add-to-group group-id="DatabaseViewPopupMenu" anchor="first"/>
+        </action>
+    </actions>
+    <extensions defaultExtensionNs="com.intellij">
+        <dom.fileMetaData rootTagName="mapper" implementation="com.tianlei.mybatis.dom.description.MapperDescription"/>
+        <dom.fileMetaData rootTagName="configuration"
+                          implementation="com.tianlei.mybatis.dom.description.ConfigurationDescription"/>
+        <definitionsScopedSearch implementation="com.tianlei.mybatis.definitionsearch.MapperDefinitionSearch"/>
+        <projectService serviceImplementation="com.tianlei.mybatis.service.JavaService"/>
+        <projectService serviceImplementation="com.tianlei.mybatis.service.AnnotationService"/>
+        <projectService serviceImplementation="com.tianlei.mybatis.service.EditorService"/>
+        <projectService serviceImplementation="com.tianlei.mybatis.alias.AliasFacade"/>
+        <projectService serviceImplementation="com.tianlei.mybatis.locator.MapperLocator"/>
+        <projectService serviceImplementation="com.tianlei.mybatis.service.TableInfoService"/>
+        <codeInsight.lineMarkerProvider language="JAVA"
+                                        implementationClass="com.tianlei.mybatis.provider.MapperLineMarkerProvider"/>
+        <codeInsight.lineMarkerProvider language="XML"
+                                        implementationClass="com.tianlei.mybatis.provider.StatementLineMarkerProvider"/>
+        <codeInsight.lineMarkerProvider language="JAVA"
+                                        implementationClass="com.tianlei.mybatis.provider.InjectionLineMarkerProvider"/>
+        <applicationConfigurable groupId="tools" instance="com.tianlei.mybatis.setting.MybatisConfigurable"/>
+        <completion.contributor language="JAVA"
+                                implementationClass="com.tianlei.mybatis.contributor.JavaMenthodCompletionContributor"/>
+        <applicationService serviceImplementation="com.tianlei.mybatis.setting.MybatisSetting"/>
+        <completion.contributor language="XML"
+                                implementationClass="com.tianlei.mybatis.contributor.TestParamContributor"/>
+        <completion.contributor language="SQL"
+                                implementationClass="com.tianlei.mybatis.contributor.SqlParamCompletionContributor"
+                                order="first"/>
+        <fileTemplateGroup implementation="com.tianlei.mybatis.template.MybatisFileTemplateDescriptorFactory"/>
+        <typedHandler implementation="com.tianlei.mybatis.action.MybatisTypedHandler" id="mybatis" order="first"/>
+        <defaultLiveTemplates file="liveTemplates/sql.xml" hidden="false"/>
+        <refactoring.elementListenerProvider
+                implementation="com.tianlei.mybatis.refactoring.MapperRefactoringProvider"/>
+        <localInspection language="JAVA" shortName="MybatisMapperMethodInspection"
+                         displayName="Mapper method inspection"
+                         groupName="Mybatis" enabledByDefault="true" level="ERROR"
+                         implementationClass="com.tianlei.mybatis.inspection.MapperMethodInspection"/>
+        <localInspection language="XML" shortName="MybatisMapperXmlInspection" enabledByDefault="true" level="ERROR"
+                         displayName="Mapper xml inspection"
+                         groupName="Mybatis"
+                         implementationClass="com.tianlei.mybatis.inspection.MapperXmlInspection"/>
+        <intentionAction>
+            <className>com.tianlei.mybatis.intention.GenerateParamAnnotationIntention</className>
+        </intentionAction>
+        <intentionAction>
+            <className>com.tianlei.mybatis.intention.GenerateStatementIntention</className>
+        </intentionAction>
+        <intentionAction order="first">
+            <className>com.tianlei.mybatis.intention.GenerateMapperIntention</className>
+        </intentionAction>
+        <projectService serviceImplementation="com.tianlei.mybatis.setting.PersistentConfig"/>
+        <projectConfigurable groupId="tools" displayName="Mybatis Generator Setting" id="free.mybatis.gene.id"
+                             instance="com.tianlei.mybatis.setting.MybatisGeneratorConfigurable"/>
+    </extensions>
+</idea-plugin>
