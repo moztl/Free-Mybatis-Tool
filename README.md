@@ -1,11 +1,17 @@
 <p align="center">
-	<img src="https://s4.ax1x.com/2022/02/16/HfOyi4.png" >
+	<img src="https://s4.ax1x.com/2022/02/16/HfOyi4.png" width="80">
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/IDEA-2021.3-orange.svg" />
-    <img src="https://img.shields.io/badge/JDK-11-green.svg" />
-    <img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
+    <a target="_blank" href="https://plugins.jetbrains.com/plugin/18617-free-mybatis-tool" style="text-decoration:none;">
+		<img src="https://img.shields.io/badge/IDEA-2021.3-orange.svg" />
+	</a>
+    <a target="_blank" href="https://www.oracle.com/java/technologies/downloads/#java11" style="text-decoration:none;">
+		<img src="https://img.shields.io/badge/JDK-11-green.svg" />
+	</a>
+	<a target="_blank" href="https://github.com/moztl/Free-Mybatis-Tool/blob/main/LICENSE" style="text-decoration:none;">
+        <img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
+	</a>
 </p>
 
 
