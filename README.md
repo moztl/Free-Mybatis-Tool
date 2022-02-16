@@ -21,7 +21,7 @@
 
 <a target="_blank" href="https://plugins.jetbrains.com/plugin/18617-free-mybatis-tool" style="text-decoration:none;">
     Plugin homepage
-</a>
+</a></br>
 
 <!-- Plugin description -->
 **Free MyBatis Tool** is a plugin that enhances idea support for mybatis.
