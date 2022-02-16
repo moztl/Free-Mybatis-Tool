@@ -1,5 +1,7 @@
 <p align="center">
-	<img src="https://s4.ax1x.com/2022/02/16/HfOyi4.png" width="80">
+    <a target="_blank" href="https://github.com/moztl/Free-Mybatis-Tool" style="text-decoration:none;">
+		<img src="https://s4.ax1x.com/2022/02/16/HfOyi4.png" >
+	</a>
 </p>
 
 <p align="center">
