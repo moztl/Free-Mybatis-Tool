@@ -1,4 +1,16 @@
+<p align="center">
+	<img src="https://s4.ax1x.com/2022/02/16/HfOyi4.png" >
+</p>
+
+<p align="center">
+    <img src="https://img.shields.io/badge/IDEA-2021.3-orange.svg" />
+    <img src="https://img.shields.io/badge/JDK-11-green.svg" />
+    <img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
+</p>
+
+
 # Free MyBatis Tool
+
 
 <!-- Plugin description -->
 **Free MyBatis Tool** is a plugin that enhances idea support for mybatis.
