@@ -2,6 +2,7 @@ package com.tianlei.mybatis.action;
 
 import com.intellij.codeInsight.AutoPopupController;
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
+import com.intellij.lang.injection.InjectedLanguageManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
@@ -23,7 +24,7 @@ public class MybatisTypedHandler extends TypedHandlerDelegate {
     @Override
     public Result charTyped(char c, final Project project, @NotNull final Editor editor, @NotNull PsiFile file) {
         int index = editor.getCaretModel().getOffset() - 2;
-        PsiFile topLevelFile = InjectedLanguageUtil.getTopLevelFile(file);
+        PsiFile topLevelFile = InjectedLanguageManager.getInstance(project).getTopLevelFile(file);
         boolean parameterCase = c == '{' &&
                 index >= 0 &&
                 editor.getDocument().getText().charAt(index) == '#' &&

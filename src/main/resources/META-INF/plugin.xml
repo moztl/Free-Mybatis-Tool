@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.tianlei.plugin.mybatis</id>
     <name>Free MyBatis Tool</name>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
     <vendor email="156751282@qq.com" url="https://github.com/moztl/Free-Mybatis-Tool">tianlei</vendor>
     <idea-version since-build="213"/>
     <description>
