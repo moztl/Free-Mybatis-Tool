@@ -2,6 +2,10 @@
 
 # Free MyBatis Tool Changelog
 
+## [2.0.2]
+### Fixed
+- Fix `ClassCastException` Exception
+
 ## [2.0.1]
 ### Fixed
 - Fix `Page(分页)`,`Add-ForUpdate(select增加ForUpdate)` function
