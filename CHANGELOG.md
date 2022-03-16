@@ -2,6 +2,10 @@
 
 # Free MyBatis Tool Changelog
 
+## [2.0.3]
+### Fixed
+- Fix the problem of being overwritten by the first class when generating multiple tables.
+
 ## [2.0.2]
 ### Fixed
 - Fix `ClassCastException` Exception

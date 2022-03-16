@@ -50,7 +50,7 @@ public class MybatisGenerator {
      * @param anActionEvent
      * @throws Exception
      */
-    public List<String> execute(final AnActionEvent anActionEvent, boolean saveConfig) throws Exception {
+    public List<String> execute(final AnActionEvent anActionEvent, boolean saveConfig, PsiElement psiElement) throws Exception {
         List<String> result = new ArrayList<>();
         this.project = anActionEvent.getData(PlatformDataKeys.PROJECT);
         this.persistentConfig = PersistentConfig.getInstance(project);
@@ -58,13 +58,11 @@ public class MybatisGenerator {
         if (saveConfig) {
             saveConfig();//执行前 先保存一份当前配置
         }
-        final PsiElement[] psiElements = anActionEvent.getData(LangDataKeys.PSI_ELEMENT_ARRAY);
 
-        if (psiElements == null || psiElements.length == 0) {
+        if (Objects.isNull(psiElement)) {
             result.add("can not generate! \nplease select table");
             return result;
         }
-        PsiElement psiElement = psiElements[0];
         if (!(psiElement instanceof DbTable)) {
             result.add("can not generate! \nplease select table");
             return result;
@@ -72,23 +70,23 @@ public class MybatisGenerator {
 
         intellijTableInfo = DbToolsUtils.buildIntellijTableInfo((DbTable) psiElement);
 
-        RawConnectionConfig connectionConfig = ((DbTable) psiElements[0]).getDataSource().getConnectionConfig();
+        RawConnectionConfig connectionConfig = ((DbTable) psiElement).getDataSource().getConnectionConfig();
 
         String driverClass = connectionConfig.getDriverClass();
         if (driverClass.contains("mysql")) {
-            currentDbName = ((DbTable) psiElements[0]).getParent().getName();
+            currentDbName = ((DbTable) psiElement).getParent().getName();
             dbType = DbType.MySQL;
         } else if (driverClass.contains("oracle")) {
-            currentDbName = ((DbTable) psiElements[0]).getParent().getName();
+            currentDbName = ((DbTable) psiElement).getParent().getName();
             dbType = DbType.Oracle;
         } else if (driverClass.contains("postgresql")) {
-            currentDbName = ((DbTable) psiElements[0]).getParent().getParent().getName();
+            currentDbName = ((DbTable) psiElement).getParent().getParent().getName();
             dbType = DbType.PostgreSQL;
         } else if (driverClass.contains("sqlserver")) {
-            currentDbName = ((DbTable) psiElements[0]).getParent().getName();
+            currentDbName = ((DbTable) psiElement).getParent().getName();
             dbType = DbType.SqlServer;
         } else if (driverClass.contains("mariadb")) {
-            currentDbName = ((DbTable) psiElements[0]).getParent().getName();
+            currentDbName = ((DbTable) psiElement).getParent().getName();
             dbType = DbType.MariaDB;
         } else {
             String failMessage = String.format("db type not support!" +

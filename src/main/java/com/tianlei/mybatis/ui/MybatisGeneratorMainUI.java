@@ -533,7 +533,7 @@ public class MybatisGeneratorMainUI extends JFrame {
                 generator_config.setXmlMvnPath(xmlMvnField.getText());
 
 
-                result = new MybatisGenerator(generator_config).execute(anActionEvent, true);
+                result = new MybatisGenerator(generator_config).execute(anActionEvent, true, psiElements[0]);
             } else {
 
                 for (PsiElement psiElement : psiElements) {
@@ -579,7 +579,7 @@ public class MybatisGeneratorMainUI extends JFrame {
                     if (historyConfigList != null && historyConfigList.containsKey(tableName)) {
                         needSaveConfig = false;
                     }
-                    result = new MybatisGenerator(generator_config).execute(anActionEvent, needSaveConfig);
+                    result = new MybatisGenerator(generator_config).execute(anActionEvent, needSaveConfig, psiElement);
                 }
 
             }
