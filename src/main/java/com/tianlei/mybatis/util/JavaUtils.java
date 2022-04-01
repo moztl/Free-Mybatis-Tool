@@ -1,5 +1,6 @@
 package com.tianlei.mybatis.util;
 
+import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
@@ -12,10 +13,8 @@ import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public final class JavaUtils {
 
@@ -69,11 +68,33 @@ public final class JavaUtils {
     }
 
     @NotNull
-    public static Optional<PsiMethod> findMethod(@NotNull Project project, @Nullable String clazzName, @Nullable String methodName) {
+    public static Optional<PsiClass[]> findClazzes(@NotNull Project project, @NotNull String clazzName) {
+        return Optional.ofNullable(JavaPsiFacade.getInstance(project).findClasses(clazzName, GlobalSearchScope.allScope(project)));
+    }
+
+    @NotNull
+    public static Optional<PsiClass> findClazzWithModule(@NotNull Project project, @NotNull String clazzName, @NotNull Module module) {
+        return Optional.ofNullable(JavaPsiFacade.getInstance(project).findClass(clazzName, GlobalSearchScope.moduleScope(module)));
+    }
+
+    @NotNull
+    public static Optional<PsiClass[]> findClazzesWithModule(@NotNull Project project, @NotNull String clazzName, @NotNull Module module) {
+        return Optional.ofNullable(JavaPsiFacade.getInstance(project).findClasses(clazzName, GlobalSearchScope.moduleScope(module)));
+    }
+
+    @NotNull
+    public static Optional<PsiMethod> findMethod(@NotNull Project project, @Nullable String clazzName, @Nullable String methodName, Module module) {
         if (StringUtils.isBlank(clazzName) && StringUtils.isBlank(methodName)) {
             return Optional.empty();
         }
-        Optional<PsiClass> clazz = findClazz(project, clazzName);
+        Optional<PsiClass> clazz;
+
+        if (Objects.isNull(module)) {
+            clazz = findClazz(project, clazzName);
+        } else {
+            clazz = findClazzWithModule(project, clazzName, module);
+        }
+
         if (clazz.isPresent()) {
             PsiMethod[] methods = clazz.get().findMethodsByName(methodName, true);
             return ArrayUtils.isEmpty(methods) ? Optional.empty() : Optional.of(methods[0]);
@@ -82,8 +103,37 @@ public final class JavaUtils {
     }
 
     @NotNull
+    public static Optional<PsiMethod[]> findMethods(@NotNull Project project, @Nullable String clazzName, @Nullable String methodName, Module module) {
+        if (StringUtils.isBlank(clazzName) && StringUtils.isBlank(methodName)) {
+            return Optional.empty();
+        }
+        Optional<PsiClass[]> clazzes;
+
+        if (Objects.isNull(module)) {
+            clazzes = findClazzes(project, clazzName);
+        } else {
+            clazzes = findClazzesWithModule(project, clazzName, module);
+        }
+
+        if (clazzes.isPresent()) {
+            List<PsiMethod> collect = Arrays.stream(clazzes.get())
+                    .map(psiClass -> psiClass.findMethodsByName(methodName, true))
+                    .flatMap(Arrays::stream)
+                    .collect(Collectors.toList());
+            return collect.isEmpty() ? Optional.empty() : Optional.of(collect.toArray(new PsiMethod[0]));
+
+        }
+        return Optional.empty();
+    }
+
+    @NotNull
     public static Optional<PsiMethod> findMethod(@NotNull Project project, @NotNull IdDomElement element) {
-        return findMethod(project, MapperUtils.getNamespace(element), MapperUtils.getId(element));
+        return findMethod(project, MapperUtils.getNamespace(element), MapperUtils.getId(element), MapperUtils.getMapper(element).getModule());
+    }
+
+    @NotNull
+    public static Optional<PsiMethod[]> findMethods(@NotNull Project project, @NotNull IdDomElement element) {
+        return findMethods(project, MapperUtils.getNamespace(element), MapperUtils.getId(element), MapperUtils.getMapper(element).getModule());
     }
 
     public static boolean isAnnotationPresent(@NotNull PsiModifierListOwner target, @NotNull Annotation annotation) {

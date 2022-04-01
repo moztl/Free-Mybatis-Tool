@@ -14,9 +14,9 @@ import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.CommonProcessors.CollectProcessor;
 import com.tianlei.mybatis.dom.model.GroupTwo;
 import com.tianlei.mybatis.dom.model.Mapper;
+import com.tianlei.mybatis.service.EditorService;
 import com.tianlei.mybatis.service.JavaService;
 import com.tianlei.mybatis.setting.MybatisSetting;
-import com.tianlei.mybatis.service.EditorService;
 import com.tianlei.mybatis.ui.ListSelectionListener;
 import com.tianlei.mybatis.ui.UiComponentFacade;
 import com.tianlei.mybatis.util.CollectionUtils;
@@ -41,13 +41,10 @@ public abstract class StatementGenerator {
 
     public static final Set<StatementGenerator> ALL = ImmutableSet.of(UPDATE_GENERATOR, SELECT_GENERATOR, DELETE_GENERATOR, INSERT_GENERATOR);
 
-    private static final Function<Mapper, String> FUN = new Function<Mapper, String>() {
-        @Override
-        public String apply(Mapper mapper) {
-            VirtualFile vf = mapper.getXmlTag().getContainingFile().getVirtualFile();
-            if (null == vf) return "";
-            return vf.getCanonicalPath();
-        }
+    private static final Function<Mapper, String> FUN = mapper -> {
+        VirtualFile vf = mapper.getXmlTag().getContainingFile().getVirtualFile();
+        if (null == vf) return "";
+        return vf.getCanonicalPath();
     };
 
     public static Optional<PsiClass> getSelectResultType(@Nullable PsiMethod method) {
@@ -72,7 +69,7 @@ public abstract class StatementGenerator {
 
     private static void doGenerate(@NotNull final StatementGenerator generator, @NotNull final PsiMethod method) {
         (new WriteCommandAction.Simple(method.getProject(), new PsiFile[]{method.getContainingFile()}) {
-            protected void run() throws Throwable {
+            protected void run() {
                 generator.execute(method);
             }
         }).execute();
@@ -89,15 +86,11 @@ public abstract class StatementGenerator {
                     new BaseListPopupStep("[ Statement type for method: " + method.getName() + "]", generators) {
                         @Override
                         public PopupStep onChosen(Object selectedValue, boolean finalChoice) {
-                            return this.doFinalStep(new Runnable() {
-                                public void run() {
-                                    WriteCommandAction.runWriteCommandAction(project, new Runnable() {
-                                        public void run() {
-                                            StatementGenerator.doGenerate((StatementGenerator) selectedValue, method);
-                                        }
-                                    });
-                                }
-                            });
+                            return this.doFinalStep(
+                                    () -> WriteCommandAction.runWriteCommandAction(project,
+                                            () -> StatementGenerator.doGenerate((StatementGenerator) selectedValue, method)
+                                    )
+                            );
                         }
                     }
             ).showInFocusCenter();
@@ -136,7 +129,7 @@ public abstract class StatementGenerator {
             UiComponentFacade.getInstance(method.getProject()).showListPopup("Choose target mapper xml to generate", new ListSelectionListener() {
                 @Override
                 public void selected(int index) {
-                    setupTag(method, mappers.get(index));
+                    WriteCommandAction.runWriteCommandAction(method.getProject(), () -> setupTag(method, mappers.get(index)));
                 }
 
                 @Override

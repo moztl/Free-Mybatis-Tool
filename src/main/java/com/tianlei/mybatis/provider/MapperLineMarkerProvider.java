@@ -21,17 +21,12 @@ import java.util.Collection;
 
 public class MapperLineMarkerProvider extends RelatedItemLineMarkerProvider {
 
-    private static final Function<DomElement, XmlTag> FUN = new Function<DomElement, XmlTag>() {
-        @Override
-        public XmlTag apply(DomElement domElement) {
-            return domElement.getXmlTag();
-        }
-    };
+    private static final Function<DomElement, XmlTag> FUN = domElement -> domElement.getXmlTag();
 
     @Override
     protected void collectNavigationMarkers(@NotNull PsiElement element, @NotNull Collection<? super RelatedItemLineMarkerInfo<?>> result) {
         if (element instanceof PsiNameIdentifierOwner && JavaUtils.isElementWithinInterface(element)) {
-            CommonProcessors.CollectProcessor<IdDomElement> processor = new CommonProcessors.CollectProcessor<IdDomElement>();
+            CommonProcessors.CollectProcessor<IdDomElement> processor = new CommonProcessors.CollectProcessor<>();
             JavaService.getInstance(element.getProject()).process(element, processor);
             Collection<IdDomElement> results = processor.getResults();
             if (!results.isEmpty()) {

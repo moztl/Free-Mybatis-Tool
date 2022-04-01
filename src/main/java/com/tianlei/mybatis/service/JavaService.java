@@ -1,9 +1,11 @@
 package com.tianlei.mybatis.service;
 
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.source.PsiClassReferenceType;
+import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.CommonProcessors;
 import com.intellij.util.Processor;
 import com.intellij.util.xml.DomElement;
@@ -53,9 +55,11 @@ public class JavaService {
         PsiClass psiClass = psiMethod.getContainingClass();
         if (null == psiClass) return;
         String id = psiClass.getQualifiedName() + "." + psiMethod.getName();
+        String clazzModule = psiClass.getResolveScope().getDisplayName();
         for (Mapper mapper : MapperUtils.findMappers(psiMethod.getProject())) {
+            String mapperModule = mapper.getModule().getModuleScope().getDisplayName();
             for (IdDomElement idDomElement : mapper.getDaoElements()) {
-                if (MapperUtils.getIdSignature(idDomElement).equals(id)) {
+                if (clazzModule.equals(mapperModule) && MapperUtils.getIdSignature(idDomElement).equals(id)) {
                     processor.process(idDomElement);
                 }
             }
@@ -65,8 +69,10 @@ public class JavaService {
     @SuppressWarnings("unchecked")
     public void process(@NotNull PsiClass clazz, @NotNull Processor<Mapper> processor) {
         String ns = clazz.getQualifiedName();
+        String clazzModule = clazz.getResolveScope().getDisplayName();
         for (Mapper mapper : MapperUtils.findMappers(clazz.getProject())) {
-            if (MapperUtils.getNamespace(mapper).equals(ns)) {
+            String mapperModule = mapper.getModule().getModuleScope().getDisplayName();
+            if (clazzModule.equals(mapperModule) && MapperUtils.getNamespace(mapper).equals(ns)) {
                 processor.process(mapper);
             }
         }

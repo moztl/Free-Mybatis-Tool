@@ -14,7 +14,7 @@ public class DaoMethodConverter extends ConverterAdaptor<PsiMethod> {
     @Override
     public PsiMethod fromString(@Nullable @NonNls String id, ConvertContext context) {
         Mapper mapper = MapperUtils.getMapper(context.getInvocationElement());
-        return JavaUtils.findMethod(context.getProject(), MapperUtils.getNamespace(mapper), id).orElse(null);
+        return JavaUtils.findMethod(context.getProject(), MapperUtils.getNamespace(mapper), id, null).orElse(null);
     }
 
 }

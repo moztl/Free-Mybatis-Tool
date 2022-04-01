@@ -2,6 +2,12 @@
 
 # Free MyBatis Tool Changelog
 
+## [2.0.4]
+### Fixed
+- Fix the bug of jumping error when there is a **Dao/Xml** file with the same name.
+- Fix the bug that the **Xml** file is automatically generated when there is a **Dao** file with the same name.
+- Fix the `IncorrectOperationException` that was automatically generated when there was an **Xml** file with the same name
+
 ## [2.0.3]
 ### Fixed
 - Fix the problem of being overwritten by the first class when generating multiple tables.
