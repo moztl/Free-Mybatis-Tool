@@ -2,6 +2,10 @@
 
 # Free MyBatis Tool Changelog
 
+## [2.1.0]
+### Fixed
+- Upgrade Support to `2022.1`
+
 ## [2.0.4]
 ### Fixed
 - Fix the bug of jumping error when there is a **Dao/Xml** file with the same name.
