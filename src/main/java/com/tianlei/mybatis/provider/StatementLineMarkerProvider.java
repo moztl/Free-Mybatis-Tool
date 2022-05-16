@@ -56,7 +56,9 @@ public class StatementLineMarkerProvider extends SimpleLineMarkerProvider<XmlTok
             if (StringUtils.isEmpty(namespace)) {
                 return Optional.empty();
             }
-            return JavaUtils.findClazzesWithModule(from.getProject(), namespace, domElement.getModule());
+            return Objects.nonNull(domElement.getModule()) ?
+                    JavaUtils.findClazzesWithModule(from.getProject(), namespace, domElement.getModule())
+                    : JavaUtils.findClazzes(from.getProject(), namespace);
         }
     }
 
