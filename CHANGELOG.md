@@ -2,6 +2,10 @@
 
 # Free MyBatis Tool Changelog
 
+## [2.1.2]
+### Fixed
+- Upgrade Support to `2022.2`
+
 ## [2.1.1]
 ### Fixed
 - Fix `java.lang.IllegalArgumentException: Argument for @NotNull parameter 'module' of ... must not be null`
