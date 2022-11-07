@@ -6,7 +6,7 @@
 
 <p align="center">
     <a target="_blank" href="https://plugins.jetbrains.com/plugin/18617-free-mybatis-tool" style="text-decoration:none;">
-		<img src="https://img.shields.io/badge/IDEA-2022.2-orange.svg" />
+		<img src="https://img.shields.io/badge/IDEA-2022.3-orange.svg" />
 	</a>
     <a target="_blank" href="https://www.oracle.com/java/technologies/downloads/#java11" style="text-decoration:none;">
 		<img src="https://img.shields.io/badge/JDK-11-green.svg" />

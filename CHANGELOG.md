@@ -2,6 +2,10 @@
 
 # Free MyBatis Tool Changelog
 
+## [2.1.3]
+### Fixed
+- Upgrade Support to `2022.3` or higher
+
 ## [2.1.2]
 ### Fixed
 - Upgrade Support to `2022.2`
