@@ -34,21 +34,21 @@ public class MybatisGeneratorSettingUI extends JDialog {
     private JTextField xmlMvnField = new JBTextField(15);
     private JButton setProjectBtn = new JButton("Set-Project-Path");
 
-    private JCheckBox offsetLimitBox = new JCheckBox("Page(分页)");
-    private JCheckBox commentBox = new JCheckBox("comment(实体注释)");
+    private JCheckBox commentBox = new JCheckBox("Comment(实体注释)");
     private JCheckBox overrideXMLBox = new JCheckBox("Overwrite-Xml");
     private JCheckBox overrideJavaBox = new JCheckBox("Overwrite-Java");
     private JCheckBox needToStringHashcodeEqualsBox = new JCheckBox("toString/hashCode/equals");
     private JCheckBox useSchemaPrefixBox = new JCheckBox("Use-Schema(使用Schema前缀)");
-    private JCheckBox needForUpdateBox = new JCheckBox("Add-ForUpdate(select增加ForUpdate)");
     private JCheckBox annotationDAOBox = new JCheckBox("Repository-Annotation(Repository注解)");
-    private JCheckBox useDAOExtendStyleBox = new JCheckBox("Parent-Interface(公共父接口)");
+    private JCheckBox useDAOExtendStyleBox = new JCheckBox("Parent-Interface(Dao公共父接口)");
     private JCheckBox jsr310SupportBox = new JCheckBox("JSR310: Date and Time API");
     private JCheckBox annotationBox = new JCheckBox("JPA-Annotation(JPA注解)");
     private JCheckBox useActualColumnNamesBox = new JCheckBox("Actual-Column(实际的列名)");
     private JCheckBox useTableNameAliasBox = new JCheckBox("Use-Alias(启用别名查询)");
     private JCheckBox useExampleBox = new JCheckBox("Use-Example");
-    private JCheckBox useLombokBox = new JCheckBox("Use-Lombox");
+    private JCheckBox offsetLimitBox = new JCheckBox("Page(分页，需开启Use-Example)");
+    private JCheckBox needForUpdateBox = new JCheckBox("Add-ForUpdate(需开启Use-Example)");
+    private JCheckBox useLombokBox = new JCheckBox("Use-Lombok");
 
     private PersistentConfig config;
 
@@ -80,7 +80,6 @@ public class MybatisGeneratorSettingUI extends JDialog {
         });
         projectFolderPanel.add(projectFolderBtn);
         projectFolderPanel.add(setProjectBtn);
-
 
         /**
          * mode panel
@@ -134,7 +133,6 @@ public class MybatisGeneratorSettingUI extends JDialog {
         daoMvnField.setText("src/main/java");
         daoPanel.add(daoMvnField);
 
-
         /**
          * xml mapper panel
          */
@@ -148,34 +146,35 @@ public class MybatisGeneratorSettingUI extends JDialog {
         xmlMvnField.setText("src/main/resources");
         xmlMapperPanel.add(xmlMvnField);
 
-
         /**
          * options panel
          */
         JBPanel optionsPanel = new JBPanel(new GridLayout(5, 5, 5, 5));
         optionsPanel.setBorder(BorderFactory.createTitledBorder("options panel"));
 
+        /**
+         * Default selected
+         **/
+        useLombokBox.setSelected(true);
         commentBox.setSelected(true);
-        overrideXMLBox.setSelected(true);
         overrideJavaBox.setSelected(true);
         useSchemaPrefixBox.setSelected(true);
-        useLombokBox.setSelected(true);
+        annotationDAOBox.setSelected(true);
 
-        optionsPanel.add(offsetLimitBox);
+        optionsPanel.add(useLombokBox);
         optionsPanel.add(commentBox);
-        optionsPanel.add(overrideXMLBox);
         optionsPanel.add(overrideJavaBox);
-        optionsPanel.add(needToStringHashcodeEqualsBox);
         optionsPanel.add(useSchemaPrefixBox);
-        optionsPanel.add(needForUpdateBox);
         optionsPanel.add(annotationDAOBox);
+        optionsPanel.add(needToStringHashcodeEqualsBox);
         optionsPanel.add(useDAOExtendStyleBox);
         optionsPanel.add(jsr310SupportBox);
         optionsPanel.add(annotationBox);
         optionsPanel.add(useActualColumnNamesBox);
         optionsPanel.add(useTableNameAliasBox);
         optionsPanel.add(useExampleBox);
-        optionsPanel.add(useLombokBox);
+        optionsPanel.add(offsetLimitBox);
+        optionsPanel.add(needForUpdateBox);
 
         /**
          * 设置面板内容
@@ -265,12 +264,9 @@ public class MybatisGeneratorSettingUI extends JDialog {
         config.setUseLombokPlugin(useLombokBox.getSelectedObjects() != null);
         initConfig.put(config.getName(), config);
         this.config.setInitConfig(initConfig);
-
-
     }
 
     public void reset() {
-
     }
 
     @Override

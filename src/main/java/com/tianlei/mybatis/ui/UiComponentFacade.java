@@ -16,9 +16,6 @@ import com.intellij.ui.components.JBList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public final class UiComponentFacade {
 
     private Project project;
@@ -55,18 +52,10 @@ public final class UiComponentFacade {
         builder.setSouthComponent(checkBox);
         final JBPopup popup = builder.createPopup();
         if (null != clickableListener) {
-            final Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    clickableListener.clicked();
-                }
-            };
-            checkBox.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    popup.dispose();
-                    setActionForExecutableListener(runnable, clickableListener);
-                }
+            final Runnable runnable = () -> clickableListener.clicked();
+            checkBox.addActionListener(e -> {
+                popup.dispose();
+                setActionForExecutableListener(runnable, clickableListener);
             });
         }
         setPositionForShown(popup);
@@ -107,18 +96,8 @@ public final class UiComponentFacade {
         PopupChooserBuilder builder = new PopupChooserBuilder(list);
         builder.setTitle(title);
         if (null != listener) {
-            final Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    listener.selected(list.getSelectedIndex());
-                }
-            };
-            builder.setItemChoosenCallback(new Runnable() {
-                @Override
-                public void run() {
-                    setActionForExecutableListener(runnable, listener);
-                }
-            });
+            final Runnable runnable = () -> listener.selected(list.getSelectedIndex());
+            builder.setItemChoosenCallback(() -> setActionForExecutableListener(runnable, listener));
         }
         return builder;
     }

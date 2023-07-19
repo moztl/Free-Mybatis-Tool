@@ -6,10 +6,10 @@
 
 <p align="center">
     <a target="_blank" href="https://plugins.jetbrains.com/plugin/18617-free-mybatis-tool" style="text-decoration:none;">
-		<img src="https://img.shields.io/badge/IDEA-2022.3-orange.svg" />
+		<img src="https://img.shields.io/badge/IDEA-2023.1 or higher-orange.svg" />
 	</a>
     <a target="_blank" href="https://www.oracle.com/java/technologies/downloads/#java11" style="text-decoration:none;">
-		<img src="https://img.shields.io/badge/JDK-11-green.svg" />
+		<img src="https://img.shields.io/badge/JDK-17-green.svg" />
 	</a>
 	<a target="_blank" href="https://github.com/moztl/Free-Mybatis-Tool/blob/main/LICENSE" style="text-decoration:none;">
         <img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" />
