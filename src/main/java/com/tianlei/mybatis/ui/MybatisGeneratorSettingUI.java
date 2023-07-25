@@ -158,13 +158,15 @@ public class MybatisGeneratorSettingUI extends JDialog {
         useLombokBox.setSelected(true);
         commentBox.setSelected(true);
         overrideJavaBox.setSelected(true);
+        overrideXMLBox.setSelected(true);
         useSchemaPrefixBox.setSelected(true);
         annotationDAOBox.setSelected(true);
 
         optionsPanel.add(useLombokBox);
         optionsPanel.add(commentBox);
-        optionsPanel.add(overrideJavaBox);
         optionsPanel.add(useSchemaPrefixBox);
+        optionsPanel.add(overrideJavaBox);
+        optionsPanel.add(overrideXMLBox);
         optionsPanel.add(annotationDAOBox);
         optionsPanel.add(needToStringHashcodeEqualsBox);
         optionsPanel.add(useDAOExtendStyleBox);

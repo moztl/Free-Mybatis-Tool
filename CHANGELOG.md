@@ -2,6 +2,11 @@
 
 # Free MyBatis Tool Changelog
 
+## [2.2.1]
+
+### Fixed
+- Fix Generate Options Overwrite-Xml
+
 ## [2.2.0]
 
 ### Fixed

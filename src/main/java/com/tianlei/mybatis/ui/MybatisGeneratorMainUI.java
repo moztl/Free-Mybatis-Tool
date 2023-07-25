@@ -490,6 +490,7 @@ public class MybatisGeneratorMainUI extends JFrame {
              **/
             useLombokBox.setSelected(true);
             commentBox.setSelected(true);
+            overrideXMLBox.setSelected(true);
             overrideJavaBox.setSelected(true);
             useSchemaPrefixBox.setSelected(true);
             annotationDAOBox.setSelected(true);
@@ -512,8 +513,9 @@ public class MybatisGeneratorMainUI extends JFrame {
         }
         optionsPanel.add(useLombokBox);
         optionsPanel.add(commentBox);
-        optionsPanel.add(overrideJavaBox);
         optionsPanel.add(useSchemaPrefixBox);
+        optionsPanel.add(overrideJavaBox);
+        optionsPanel.add(overrideXMLBox);
         optionsPanel.add(annotationDAOBox);
         optionsPanel.add(needToStringHashcodeEqualsBox);
         optionsPanel.add(useDAOExtendStyleBox);
