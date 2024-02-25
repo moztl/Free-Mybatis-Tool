@@ -2,6 +2,11 @@
 
 # Free MyBatis Tool Changelog
 
+## [2.2.2]
+
+### Fixed
+- Version compatibility fix
+
 ## [2.2.1]
 
 ### Fixed

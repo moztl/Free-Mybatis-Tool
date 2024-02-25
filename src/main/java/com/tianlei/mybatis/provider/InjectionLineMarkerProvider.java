@@ -11,7 +11,7 @@ import com.tianlei.mybatis.dom.model.Mapper;
 import com.tianlei.mybatis.util.Icons;
 import com.tianlei.mybatis.util.JavaUtils;
 import com.tianlei.mybatis.util.MapperUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
