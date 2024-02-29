@@ -5,13 +5,14 @@ import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.injected.editor.DocumentWindow;
+import com.intellij.lang.injection.InjectedLanguageManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
 import com.tianlei.mybatis.dom.model.IdDomElement;
 import com.tianlei.mybatis.util.DomUtils;
 import com.tianlei.mybatis.util.MapperUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 public class SqlParamCompletionContributor extends CompletionContributor {
@@ -23,7 +24,7 @@ public class SqlParamCompletionContributor extends CompletionContributor {
         }
 
         PsiElement position = parameters.getPosition();
-        PsiFile topLevelFile = InjectedLanguageUtil.getTopLevelFile(position);
+        PsiFile topLevelFile = position.getContainingFile().getOriginalFile();
         if (DomUtils.isMybatisFile(topLevelFile)) {
             if (shouldAddElement(position.getContainingFile(), parameters.getOffset())) {
                 process(topLevelFile, result, position);
@@ -32,7 +33,10 @@ public class SqlParamCompletionContributor extends CompletionContributor {
     }
 
     private void process(PsiFile xmlFile, CompletionResultSet result, PsiElement position) {
-        DocumentWindow documentWindow = InjectedLanguageUtil.getDocumentWindow(position);
+        PsiFile psiFile = position.getContainingFile();
+        InjectedLanguageManager injectedLanguageManager = InjectedLanguageManager.getInstance(position.getProject());
+        List<DocumentWindow> documentWindows = injectedLanguageManager.getCachedInjectedDocumentsInRange(psiFile, position.getTextRange());
+        DocumentWindow documentWindow = documentWindows.isEmpty() ? null : documentWindows.get(0);
         if (null != documentWindow) {
             int offset = documentWindow.injectedToHost(position.getTextOffset());
             Optional<IdDomElement> idDomElement = MapperUtils.findParentIdDomElement(xmlFile.findElementAt(offset));

@@ -16,6 +16,8 @@ import com.intellij.ui.components.JBList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Consumer;
+
 public final class UiComponentFacade {
 
     private Project project;
@@ -96,8 +98,9 @@ public final class UiComponentFacade {
         PopupChooserBuilder builder = new PopupChooserBuilder(list);
         builder.setTitle(title);
         if (null != listener) {
-            final Runnable runnable = () -> listener.selected(list.getSelectedIndex());
-            builder.setItemChoosenCallback(() -> setActionForExecutableListener(runnable, listener));
+            final Consumer<Integer> consumer = (index) -> setActionForExecutableListener(
+                    () -> listener.selected(index), listener);
+            builder.setItemChosenCallback((selectedItem) -> consumer.accept(list.getSelectedIndex()));
         }
         return builder;
     }

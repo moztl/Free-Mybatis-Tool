@@ -1,6 +1,5 @@
 package com.tianlei.mybatis.service;
 
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
@@ -17,7 +16,7 @@ public class AnnotationService {
     }
 
     public static AnnotationService getInstance(@NotNull Project project) {
-        return ServiceManager.getService(project, AnnotationService.class);
+        return project.getService(AnnotationService.class);
     }
 
     public void addAnnotation(@NotNull PsiModifierListOwner parameter, @NotNull Annotation annotation) {

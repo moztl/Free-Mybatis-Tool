@@ -1,11 +1,8 @@
 package com.tianlei.mybatis.service;
 
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.source.PsiClassReferenceType;
-import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.CommonProcessors;
 import com.intellij.util.Processor;
 import com.intellij.util.xml.DomElement;
@@ -33,7 +30,7 @@ public class JavaService {
     }
 
     public static JavaService getInstance(@NotNull Project project) {
-        return ServiceManager.getService(project, JavaService.class);
+        return project.getService(JavaService.class);
     }
 
     public Optional<PsiClass> getReferenceClazzOfPsiField(@NotNull PsiElement field) {

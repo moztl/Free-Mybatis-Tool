@@ -2,8 +2,8 @@ package com.tianlei.mybatis.setting;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.tianlei.mybatis.generate.GenerateModel;
@@ -33,7 +33,7 @@ public class MybatisSetting implements PersistentStateComponent<Element> {
     }
 
     public static MybatisSetting getInstance() {
-        return ServiceManager.getService(MybatisSetting.class);
+        return ApplicationManager.getApplication().getService(MybatisSetting.class);
     }
 
     @Nullable

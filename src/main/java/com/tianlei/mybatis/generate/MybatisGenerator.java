@@ -8,7 +8,9 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectUtil;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.tianlei.mybatis.model.Config;
 import com.tianlei.mybatis.model.DbType;
@@ -141,8 +143,11 @@ public class MybatisGenerator {
                 Messages.showMessageDialog(e.getMessage(), "MybatisGenerator failure", Messages.getErrorIcon());
                 result.add(e.getMessage());
             }
-            project.getBaseDir().refresh(true, true);
-            project.getBaseDir().refresh(false, true);
+            VirtualFile baseDir = ProjectUtil.guessProjectDir(project);
+            if (baseDir != null) {
+                baseDir.refresh(true, true);
+                baseDir.refresh(false, true);
+            }
         });
         return result;
     }

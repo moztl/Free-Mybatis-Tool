@@ -2,7 +2,6 @@ package com.tianlei.mybatis.setting;
 
 
 import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
@@ -25,7 +24,7 @@ public class PersistentConfig implements PersistentStateComponent<PersistentConf
 
     @Nullable
     public static PersistentConfig getInstance(Project project) {
-        return ServiceManager.getService(project, PersistentConfig.class);
+        return project.getService(PersistentConfig.class);
     }
 
     @Nullable

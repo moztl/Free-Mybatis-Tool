@@ -20,16 +20,13 @@ import java.util.Set;
 
 public class AnnotationAliasResolver extends AliasResolver {
 
-    private static final Function FUN = new Function<PsiClass, AliasDesc>() {
-        @Override
-        public AliasDesc apply(PsiClass psiClass) {
-            Optional<String> txt = JavaUtils.getAnnotationValueText(psiClass, Annotation.ALIAS);
-            if (!txt.isPresent()) return null;
-            AliasDesc ad = new AliasDesc();
-            ad.setAlias(txt.get());
-            ad.setClazz(psiClass);
-            return ad;
-        }
+    private static final Function FUN = (Function<PsiClass, AliasDesc>) psiClass -> {
+        Optional<String> txt = JavaUtils.getAnnotationValueText(psiClass, Annotation.ALIAS);
+        if (!txt.isPresent()) return null;
+        AliasDesc ad = new AliasDesc();
+        ad.setAlias(txt.get());
+        ad.setClazz(psiClass);
+        return ad;
     };
 
     public AnnotationAliasResolver(Project project) {
@@ -37,7 +34,7 @@ public class AnnotationAliasResolver extends AliasResolver {
     }
 
     public static final AnnotationAliasResolver getInstance(@NotNull Project project) {
-        return project.getComponent(AnnotationAliasResolver.class);
+        return project.getService(AnnotationAliasResolver.class);
     }
 
     @NotNull

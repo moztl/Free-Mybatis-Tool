@@ -8,7 +8,10 @@ import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.ui.popup.PopupStep;
 import com.intellij.openapi.ui.popup.util.BaseListPopupStep;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiPrimitiveType;
+import com.intellij.psi.PsiType;
 import com.intellij.psi.impl.source.PsiClassReferenceType;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.CommonProcessors.CollectProcessor;
@@ -68,11 +71,7 @@ public abstract class StatementGenerator {
     }
 
     private static void doGenerate(@NotNull final StatementGenerator generator, @NotNull final PsiMethod method) {
-        (new WriteCommandAction.Simple(method.getProject(), new PsiFile[]{method.getContainingFile()}) {
-            protected void run() {
-                generator.execute(method);
-            }
-        }).execute();
+        WriteCommandAction.runWriteCommandAction(method.getProject(), () -> generator.execute(method));
     }
 
     public static void applyGenerate(@Nullable final PsiMethod method) {

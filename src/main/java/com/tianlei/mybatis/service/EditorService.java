@@ -1,8 +1,8 @@
 package com.tianlei.mybatis.service;
 
+import com.intellij.application.options.CodeStyle;
 import com.intellij.codeInsight.navigation.NavigationUtil;
 import com.intellij.formatting.FormatTextRanges;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.ScrollType;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -27,11 +27,11 @@ public class EditorService {
     }
 
     public static EditorService getInstance(@NotNull Project project) {
-        return ServiceManager.getService(project, EditorService.class);
+        return project.getService(EditorService.class);
     }
 
     public void format(@NotNull PsiFile file, @NotNull PsiElement element) {
-        this.codeFormatterFacade = new CodeFormatterFacade(CodeStyleSettingsManager.getSettings(element.getProject()), element.getLanguage());
+        this.codeFormatterFacade = new CodeFormatterFacade(CodeStyle.getSettings(element.getProject()), element.getLanguage());
         codeFormatterFacade.processText(file, new FormatTextRanges(element.getTextRange(), true), true);
     }
 
